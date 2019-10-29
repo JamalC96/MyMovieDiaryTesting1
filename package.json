@@ -1,0 +1,21 @@
+{
+  "name": "mymoviediary",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "fuse.js": "^3.4.5",
+    "http-errors": "~1.6.3",
+    "mongodb": "^3.3.3",
+    "mongodb-uri": "^0.9.7",
+    "mongoose": "^5.7.6",
+    "morgan": "~1.9.1"
+  }
+}
