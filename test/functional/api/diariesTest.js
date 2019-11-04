@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 
 let server;
 let mongod;
-let db, validID, typeMov,genre;
+let db, validID, typeMov, genre;
 
 describe("Diariess", () => {
     before(async () => {
@@ -61,8 +61,11 @@ describe("Diariess", () => {
             diary.favorite = "Bad Boys 3";
             diary.stars = "6.0";
             diary.comments = "One of Will Smith best movie";
+            diary.upvotes = 2;
             await diary.save();
-            diary = await Diary.findOne({genre: "Action"});
+            diary = await Diary.findOne({
+                genre: "Action"
+            });
             validID = diary._id;
             typeMov = diary.type;
             genre = diary.genre;
@@ -138,7 +141,7 @@ describe("Diariess", () => {
             describe("when the id is valid", () => {
                 it("should return the matching diary", done => {
                     request(server)
-                        .get(`/diaries/type/${typeMov }`)
+                        .get(`/diaries/type/${typeMov}`)
                         .set("Accept", "application/json")
                         .expect("Content-Type", /json/)
                         .expect(200)
@@ -168,7 +171,7 @@ describe("Diariess", () => {
             describe("when the genre is valid", () => {
                 it("should return the matching diary", done => {
                     request(server)
-                        .get(`/diaries/genre/${genre }`)
+                        .get(`/diaries/genre/${genre}`)
                         .set("Accept", "application/json")
                         .expect("Content-Type", /json/)
                         .expect(200)
@@ -191,13 +194,44 @@ describe("Diariess", () => {
                             done(err);
                         });
                 });
-
-
             });
         });
 
-
+        
     });
 
+
+    describe("PUT /diaries/:id/vote", () => {
+        describe("when the id is valid", () => {
+          it("should return a message and the donation upvoted by 1", () => {
+            return request(server)
+              .put(`/diaries/${validID}/votes`)
+              .expect(200)
+              .then(resp => {
+                expect(resp.body).to.include({
+                  message: "Diary Upvoted!"
+                });
+                expect(resp.body.data).to.have.property("upvotes", 2);
+              });
+          });
+          after(() => {
+            return request(server)
+              .get(`/diaries/${validID}`)
+              .set("Accept", "application/json")
+              .expect("Content-Type", /json/)
+              .expect(200)
+              .then(resp => {
+                expect(resp.body[0]).to.have.property("upvotes", 2);
+              });
+          });
+        });
+        describe("when the id is invalid", () => {
+          it("should return a 404 and a message for invalid donation id", () => {
+            return request(server)
+              .put("/donations/1100001/vote")
+              .expect(404);
+          });
+        });
+      });
 });
 

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=dev && node ./bin/www",
-    "test": "set NODE_ENV=test && mocha test/functional/api/diariesTest.js --exit"
+    "test": "mocha test/functional/api/diariesTest.js --exit"
 
   },
   "dependencies": {
