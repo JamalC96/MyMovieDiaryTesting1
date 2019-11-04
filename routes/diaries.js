@@ -21,16 +21,10 @@ var options = {
 };
 
 
-var mongodbUri = 'mongodb+srv://Jamal_96:cunningham96@wit-webapp-cluster-iwlzg.mongodb.net/myjournaldb?retryWrites=true&w=majority';
+mongoose.connect('mongodb://localhost:27017/diariesdb',
+    {useNewUrlParser: true, useUnifiedTopology: true});
 
-mongoose.connect(mongodbUri);
-
-
-
-// mongoose.connect('mongodb://localhost:27017/mymoviediarydb');
-
-let db = mongoose.connection;
-
+var db = mongoose.connection;
 
 
 

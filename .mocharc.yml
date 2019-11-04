@@ -1,0 +1,3 @@
+file:
+  - test/functional/api/diariesTest.js
+timeout: 10000
