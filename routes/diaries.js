@@ -70,7 +70,7 @@ router.findType = (req, res) => {
 
     Diary.find({ "type" : req.params.type },function(err, diary) {
         if (err)
-            res.json({ message: 'Diary Type NOT Found!!!', errmsg : err } );
+            res.json({ message: 'Diary Entry NOT Found!!!', errmsg : err } );
 
         else
             res.send(JSON.stringify(diary,null,5));
@@ -84,7 +84,7 @@ router.findGenre = (req, res) => {
 
     Diary.find({ "genre" : req.params.genre },function(err, diary) {
         if (err)
-            res.json({ message: 'Diary Genre NOT Found!!!', errmsg : err } );
+            res.json({ message: 'Diary Entry NOT Found!!!', errmsg : err } );
 
         else
             res.send(JSON.stringify(diary,null,5));

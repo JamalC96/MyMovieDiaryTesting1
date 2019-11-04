@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 
 let server;
 let mongod;
-let db, validID;
+let db, validID, typeMov,genre;
 
 describe("Diariess", () => {
     before(async () => {
@@ -58,12 +58,14 @@ describe("Diariess", () => {
             diary = new Diary();
             diary.type = "Movie";
             diary.genre = "Action";
-            diary.favorite = "Bad boys 3";
+            diary.favorite = "Bad Boys 3";
             diary.stars = "6.0";
             diary.comments = "One of Will Smith best movie";
             await diary.save();
-            diary = await Diary.findOne({ genre: "Action" });
+            diary = await Diary.findOne({genre: "Action"});
             validID = diary._id;
+            typeMov = diary.type;
+            genre = diary.genre;
         } catch (error) {
             console.log(error);
         }
@@ -102,6 +104,100 @@ describe("Diariess", () => {
                 });
         });
 
-});
+        describe("GET /diaries/:id", () => {
+            describe("when the id is valid", () => {
+                it("should return the matching diary", done => {
+                    request(server)
+                        .get(`/diaries/${validID}`)
+                        .set("Accept", "application/json")
+                        .expect("Content-Type", /json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            expect(res.body[0]).to.have.property("genre", "Action");
+                            expect(res.body[0]).to.have.property("favorite", "Bad Boys 3");
+                            done(err);
+                        });
+                });
+            });
+            describe("when the id is invalid", () => {
+                it("should return the NOT found message", done => {
+                    request(server)
+                        .get("/diaries/9999")
+                        .set("Accept", "application/json")
+                        .expect("Content-Type", /json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            expect(res.body.message).equals("Diary Entry NOT Found!!!");
+                            done(err);
+                        });
+                });
+            });
+        });
+
+        describe("GET /diaries/type/:type", () => {
+            describe("when the id is valid", () => {
+                it("should return the matching diary", done => {
+                    request(server)
+                        .get(`/diaries/type/${typeMov }`)
+                        .set("Accept", "application/json")
+                        .expect("Content-Type", /json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            expect(res.body[0]).to.have.property("type", "Movie");
+                            expect(res.body[0]).to.have.property("genre", "Action");
+                            done(err);
+                        });
+                });
+            });
+            describe("when the type is invalid", () => {
+                it("should return the NOT found message", done => {
+                    request(server)
+                        .get("/diaries/Series")
+                        .set("Accept", "application/json")
+                        .expect("Content-Type", /json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            expect(res.body.message).equals("Diary Entry NOT Found!!!");
+                            done(err);
+                        });
+                });
+            });
+        });
+
+        describe("GET /diaries/genre/:genre", () => {
+            describe("when the genre is valid", () => {
+                it("should return the matching diary", done => {
+                    request(server)
+                        .get(`/diaries/genre/${genre }`)
+                        .set("Accept", "application/json")
+                        .expect("Content-Type", /json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            expect(res.body[0]).to.have.property("genre", "Action");
+                            expect(res.body[0]).to.have.property("favorite", "Bad Boys 3");
+                            done(err);
+                        });
+                });
+            });
+            describe("when the type is invalid", () => {
+                it("should return the NOT found message", done => {
+                    request(server)
+                        .get("/diaries/Comedy")
+                        .set("Accept", "application/json")
+                        .expect("Content-Type", /json/)
+                        .expect(200)
+                        .end((err, res) => {
+                            expect(res.body.message).equals("Diary Entry NOT Found!!!");
+                            done(err);
+                        });
+                });
+
+
+            });
+        });
+
+
+    });
 
 });
+
