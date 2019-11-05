@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=dev && node ./bin/www",
-    "test": "cross-env NODE_ENV=test mocha "
+    "test": "cross-env NODE_ENV=test mocha ",
+    "compile": "babel ./ --out-dir dist/ --ignore ./node_modules,./test --copy-files"
 
   },
   "dependencies": {
+    "@babel/runtime": "^7.6.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -17,12 +19,18 @@
     "http-errors": "~1.6.3",
     "lodash": "^4.17.15",
     "mongodb": "^3.3.3",
+    "mongodb-memory-server": "latest",
     "mongodb-uri": "^0.9.7",
     "mongoose": "^5.7.6",
-    "morgan": "~1.9.1",
-    "mongodb-memory-server": "latest"
+    "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
     "@types/chai-http": "^4.2.0",
     "chai": "^4.0.2",
     "cross-env": "^6.0.3",
