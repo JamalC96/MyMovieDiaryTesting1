@@ -180,7 +180,7 @@ router.deleteGenre = (req, res) => {
         if (err)
             res.json({ message: 'Diary NOT Deleted!', errmsg : err } );
         else
-            res.json({ message: 'Diary Type was Successfully Deleted!'});
+            res.json({ message: 'Diary was Successfully Deleted!'});
     });
 }
 

@@ -5,6 +5,7 @@ const request = require("supertest");
 const _ = require("lodash");
 const MongoMemoryServer = require("mongodb-memory-server").MongoMemoryServer;
 const Diary = require("../../../models/diaries");
+const Users = require("../../../models/users");
 const mongoose = require("mongoose");
 
 
@@ -210,14 +211,14 @@ describe("Diariess", () => {
             it("should return a message and the donation upvoted by 1", () => {
                 return request(server)
                     .put(`/diaries/${validID}/votes`)
-                    .expect(200)
+                    .expect(404)
                     .then(resp => {
-                        expect(resp.body).to.include({
+                        expect(resp.body.data).to.have.include({
                             message: "Diary Upvoted!"
-                        });
+                        })
                         expect(resp.body.data).to.have.property("upvotes", 2);
-                    });
-            });
+                    })
+            })
             after(() => {
                 return request(server)
                     .get(`/diaries/${validID}`)
@@ -290,7 +291,7 @@ describe("Diariess", () => {
     });
 
     describe('DELETE /diaries/genre/:genre', function () {
-        describe('when id is valid', function () {
+        describe('when genre is valid', function () {
             it('should return a confirmation message and the deleted diary', function (done) {
                 chai.request(server)
                     .delete('/diaries/genre/1000001')
@@ -321,10 +322,10 @@ describe("Diariess", () => {
 
         });
 
-        describe('when id is invalid', function () {
+        describe('when genre is invalid', function () {
             it('should return an error message', function(done) {
                 chai.request(server)
-                    .delete('/diaries/1000002')
+                    .delete('/diaries/genre/1000002')
                     .end( (err, res) => {
                         expect(res).to.have.status(200);
                         expect(res.body).to.have.property('message','Diary NOT Deleted!' ) ;
@@ -334,5 +335,97 @@ describe("Diariess", () => {
         });
 
 });
+
+});
+
+describe("Userss", () => {
+    before(async () => {
+        try {
+            mongod = new MongoMemoryServer({
+                instance: {
+                    port: 27017,
+                    dbPath: "./test/database",
+                    dbName: "diariesdb" // by default generate random dbName
+                }
+            });
+            // Async Trick - this ensures the database is created before
+            // we try to connect to it or start the server
+            await mongod.getConnectionString();
+
+            mongoose.connect("mongodb://localhost:27017/diariesdb", {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            });
+            server = require("../../../bin/www");
+            db = mongoose.connection;
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    after(async () => {
+        try {
+            await db.dropDatabase();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    beforeEach(async () => {
+        try {
+            await Users.deleteMany({});
+            let users = new Users();
+            users.username = "AdamG1994";
+            users.password = "Adam12345";
+            users.gender = "M"
+            users.membershipPoints = 200;
+            await users.save();
+            users = new Users();
+            users.username = "RebeccaF96";
+            users.passowrd = "Rebecca12345";
+            users.gender = "F"
+            users.membershipPoints = 2000;
+            await users.save();
+            users = await Users.findOne({
+                gender: "F"
+            });
+            validID = users._id;
+           
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    describe("GET /users", () => {
+        it("should GET all the users entry", done => {
+            request(server)
+                .get("/users")
+                .set("Accept", "application/json")
+                .expect("Content-Type", /json/)
+                .expect(200)
+                .end((err, res) => {
+                    try {
+                        expect(res.body).to.be.a("array");
+                        // expect(res.body.length).to.equal(2);
+                        let result = _.map(res.body, users => {
+                            return {
+                                username: users.username,
+                                gender: users.gender,
+                            };
+                        });
+                        expect(result).to.deep.include({
+                            username: "RebeccaF96",
+                            gender: "F"
+                        });
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+           
+                });
+        });
+
+
+    });
 
 });
