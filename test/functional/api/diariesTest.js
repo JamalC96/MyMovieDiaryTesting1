@@ -289,4 +289,50 @@ describe("Diariess", () => {
 
     });
 
+    describe('DELETE /diaries/genre/:genre', function () {
+        describe('when id is valid', function () {
+            it('should return a confirmation message and the deleted diary', function (done) {
+                chai.request(server)
+                    .delete('/diaries/genre/1000001')
+                    .end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.have.property('message', 'Diary NOT Deleted!');
+                        done();
+                    });
+
+            });
+            after(function (done) {
+                chai.request(server)
+                    .get('/diaries')
+                    .end(function (err, res) {
+                        expect(res).to.have.status(200);
+                        expect(res.body).be.be.a('array');
+                        let result = _.map(res.body, function (diary) {
+                            return {
+                                genre: diary.genre
+                            };
+                        });
+                        expect(result).to.not.include({
+                            genre: "Action"
+                        });
+                        done();
+                    });
+            });
+
+        });
+
+        describe('when id is invalid', function () {
+            it('should return an error message', function(done) {
+                chai.request(server)
+                    .delete('/diaries/1000002')
+                    .end( (err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.have.property('message','Diary NOT Deleted!' ) ;
+                        done();
+                    });
+            });
+        });
+
+});
+
 });
