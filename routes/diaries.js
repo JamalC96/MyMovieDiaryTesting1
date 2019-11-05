@@ -7,6 +7,9 @@ let uriUtil = require('mongodb-uri');
 
 let Fuse = require ('fuse.js');
 
+var mongodbUri = 'mongodb+srv://Jamal_96:cunningham96@wit-webapp-cluster-iwlzg.mongodb.net/diariestesb?retryWrites=true&w=majority';
+
+
 
 var options = {
     shouldSort: true,
@@ -165,7 +168,7 @@ router.deleteDiary = (req, res) => {
 
     Diary.findByIdAndRemove(req.params.id, function(err) {
         if (err)
-            res.json({ message: 'Diary Entry was NOT DELETED!', errmsg : err } );
+            res.json({ message: 'Diary NOT Deleted!', errmsg : err } );
         else
             res.json({ message: 'Diary Entry was Successfully Deleted!'});
     });
@@ -175,7 +178,7 @@ router.deleteGenre = (req, res) => {
 
     Diary.findByIdAndRemove(req.params.genre, function(err) {
         if (err)
-            res.json({ message: 'Diary Type was NOT DELETED!', errmsg : err } );
+            res.json({ message: 'Diary NOT Deleted!', errmsg : err } );
         else
             res.json({ message: 'Diary Type was Successfully Deleted!'});
     });

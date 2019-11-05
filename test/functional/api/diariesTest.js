@@ -1,4 +1,5 @@
-const chai = require("chai");
+const chai = require("chai"),
+    chaiHttp = require('chai-http');
 const expect = chai.expect;
 const request = require("supertest");
 const _ = require("lodash");
@@ -10,6 +11,9 @@ const mongoose = require("mongoose");
 let server;
 let mongod;
 let db, validID, typeMov, genre;
+
+chai.use(chaiHttp);
+
 
 describe("Diariess", () => {
     before(async () => {
@@ -197,41 +201,92 @@ describe("Diariess", () => {
             });
         });
 
-        
+
     });
 
 
     describe("PUT /diaries/:id/vote", () => {
         describe("when the id is valid", () => {
-          it("should return a message and the donation upvoted by 1", () => {
-            return request(server)
-              .put(`/diaries/${validID}/votes`)
-              .expect(200)
-              .then(resp => {
-                expect(resp.body).to.include({
-                  message: "Diary Upvoted!"
-                });
-                expect(resp.body.data).to.have.property("upvotes", 2);
-              });
-          });
-          after(() => {
-            return request(server)
-              .get(`/diaries/${validID}`)
-              .set("Accept", "application/json")
-              .expect("Content-Type", /json/)
-              .expect(200)
-              .then(resp => {
-                expect(resp.body[0]).to.have.property("upvotes", 2);
-              });
-          });
+            it("should return a message and the donation upvoted by 1", () => {
+                return request(server)
+                    .put(`/diaries/${validID}/votes`)
+                    .expect(200)
+                    .then(resp => {
+                        expect(resp.body).to.include({
+                            message: "Diary Upvoted!"
+                        });
+                        expect(resp.body.data).to.have.property("upvotes", 2);
+                    });
+            });
+            after(() => {
+                return request(server)
+                    .get(`/diaries/${validID}`)
+                    .set("Accept", "application/json")
+                    .expect("Content-Type", /json/)
+                    .expect(200)
+                    .then(resp => {
+                        expect(resp.body[0]).to.have.property("upvotes", 2);
+                    });
+            });
         });
         describe("when the id is invalid", () => {
-          it("should return a 404 and a message for invalid donation id", () => {
-            return request(server)
-              .put("/donations/1100001/vote")
-              .expect(404);
-          });
+            it("should return a 404 and a message for invalid donation id", () => {
+                return request(server)
+                    .put("/donations/1100001/vote")
+                    .expect(404);
+            });
         });
-      });
-});
+    });
 
+    describe('DELETE /diaries/:id', function () {
+        describe('when id is valid', function () {
+            it('should return a confirmation message and the deleted diary', function (done) {
+                chai.request(server)
+                    .delete('/diaries/1000001')
+                    .end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.have.property('message', 'Diary NOT Deleted!');
+                        done();
+                    });
+
+            });
+            after(function (done) {
+                chai.request(server)
+                    .get('/diaries')
+                    .end(function (err, res) {
+                        expect(res).to.have.status(200);
+                        expect(res.body).be.be.a('array');
+                        let result = _.map(res.body, function (diary) {
+                            return {
+                                type: diary.type,
+                                genre: diary.genre
+                            };
+                        });
+                        expect(result).to.not.include({
+                            type: 'Movie',
+                            genre: "Action"
+                        });
+                        done();
+                    });
+            });
+
+        });
+
+        describe('when id is invalid', function () {
+            it('should return an error message', function(done) {
+                chai.request(server)
+                    .delete('/diaries/1000002')
+                    .end( (err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.have.property('message','Diary NOT Deleted!' ) ;
+                        done();
+                    });
+            });
+        });
+
+
+
+
+    });
+
+});

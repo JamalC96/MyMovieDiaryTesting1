@@ -5,7 +5,6 @@
   "scripts": {
     "start": "NODE_ENV=dev && node ./bin/www",
     "test": "mocha test/functional/api/diariesTest.js --exit"
-
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -23,6 +22,7 @@
     "mongodb-memory-server": "latest"
   },
   "devDependencies": {
+    "@types/chai-http": "^4.2.0",
     "chai": "^4.0.2",
     "mocha": "^6.2.0",
     "supertest": "^4.0.2"
