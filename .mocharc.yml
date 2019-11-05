@@ -1,3 +1,4 @@
 file:
   - test/functional/api/diariesTest.js
+require: '@babel/register'
 timeout: 20000

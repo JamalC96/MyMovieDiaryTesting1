@@ -1,13 +1,12 @@
-let diaries = require('../models/diaries')
-let express = require('express');
+import express from "express"
 let router = express.Router();
 let mongoose = require('mongoose');
-let Diary = require('../models/diaries');
+import Diary from "../models/diaries"
 let uriUtil = require('mongodb-uri');
 
 let Fuse = require ('fuse.js');
 
-var mongodbUri = 'mongodb+srv://Jamal_96:cunningham96@wit-webapp-cluster-iwlzg.mongodb.net/diariestesb?retryWrites=true&w=majority';
+// var mongodbUri = 'mongodb+srv://Jamal_96:cunningham96@wit-webapp-cluster-iwlzg.mongodb.net/diariestesb?retryWrites=true&w=majority';
 
 
 
@@ -103,7 +102,7 @@ router.findFuzzy = (req, res) => {
             res.send(err);
         else
            var fuse = new Fuse(diaries,options);
-           var result = fuse.search(req.body.value);
+           var result = fuse.search("Bad");
            res.send({result});
     });
 
