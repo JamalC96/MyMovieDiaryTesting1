@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 
 let server;
 let mongod;
-let db, validID, typeMov, genre;
+let db, validID, typeMov, genre,userNameID;
 
 chai.use(chaiHttp);
 
@@ -390,6 +390,8 @@ describe("Userss", () => {
                 gender: "F"
             });
             validID = users._id;
+            userNameID = users.username;
+
            
         } catch (error) {
             console.log(error);
@@ -446,6 +448,37 @@ describe("Userss", () => {
     });
 
     describe("when the id is invalid", () => {
+        it("should return the NOT found message", done => {
+            request(server)
+                .get("/users/9999")
+                .set("Accept", "application/json")
+                .expect("Content-Type", /json/)
+                .expect(200)
+                .end((err, res) => {
+                    expect(res.body.message).equals("User NOT Found!!!");
+                    done(err);
+                });
+        });
+    });
+
+    describe("GET /users/username/:username", () => {
+        describe("when the username is valid", () => {
+            it("should return the matching user", done => {
+                request(server)
+                    .get(`/users/username/${userNameID}`)
+                    .set("Accept", "application/json")
+                    .expect("Content-Type", /json/)
+                    .expect(200)
+                    .end((err, res) => {
+                        expect(res.body[0]).to.have.property("username", "RebeccaF96");
+                        done(err);
+                    });
+            });
+        });
+
+    });
+
+    describe("when the username is invalid", () => {
         it("should return the NOT found message", done => {
             request(server)
                 .get("/users/9999")
