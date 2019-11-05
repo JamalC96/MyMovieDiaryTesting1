@@ -76,6 +76,14 @@ My Users model stores the users email , password and mebership points. My Diarie
      }
      
      
+      {
+      "membershipPointsPoints": 2000,
+      "_id": "5dc14582f7205d0388ea959e",
+      "username": "DavidM76",
+      "password": "Hello123",
+      
+ },
+     
          
      <h2>Testing</h2>
 Diariess
