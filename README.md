@@ -77,10 +77,7 @@ My Users model stores the users email , password and mebership points. My Diarie
      
      
          
-     
-
- 
-  <h1> Testing </h2>
+     <h2>Testing</h2>
 Diariess
     GET /diaries
 (node:26620) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
@@ -342,8 +339,7 @@ PUT /users/5dc1ccc6b710486ffcb80b20/votes 404 3.089 ms - 9601
       at IncomingMessage.res.on (node_modules\superagent\lib\node\parsers\json.js:19:7)
       at endReadableNT (_stream_readable.js:1145:12)
       at process._tickCallback (internal/process/next_tick.js:63:19)
-
-
+    
 
 
 <br>
