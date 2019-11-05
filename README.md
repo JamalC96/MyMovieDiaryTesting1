@@ -76,12 +76,12 @@ My Users model stores the users email , password and mebership points. My Diarie
      }
      
      
-     
-     <h1> Testing </h2>
-     
+         
      
 
-  Diariess
+ 
+  <h1> Testing </h2>
+Diariess
     GET /diaries
 (node:26620) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
 (node:26620) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
