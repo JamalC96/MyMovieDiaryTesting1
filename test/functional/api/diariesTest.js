@@ -231,7 +231,7 @@ describe("Diariess", () => {
             });
         });
         describe("when the id is invalid", () => {
-            it("should return a 404 and a message for invalid donation id", () => {
+            it("should return a 404 and a message for invalid diary id", () => {
                 return request(server)
                     .put("/donations/1100001/vote")
                     .expect(404);
@@ -490,6 +490,91 @@ describe("Userss", () => {
                     done(err);
                 });
         });
+    });
+
+    describe("PUT /users/:id/vote", () => {
+        describe("when the id is valid", () => {
+            it("should return a message and the user membershipPoints upvoted by 2000", () => {
+                return request(server)
+                    .put(`/users/${validID}/votes`)
+                    .expect(404)
+                    .then(resp => {
+                        expect(resp.body.data).to.have.include({
+                            message: "User Upvoted!"
+                        })
+                        expect(resp.body.data).to.have.property("membershipPoints", 2000);
+                    })
+            })
+            after(() => {
+                return request(server)
+                    .get(`/users/${validID}`)
+                    .set("Accept", "application/json")
+                    .expect("Content-Type", /json/)
+                    .expect(200)
+                    .then(resp => {
+                        expect(resp.body[0]).to.have.property("membershipPoints", 2000);
+                    });
+            });
+        });
+        describe("when the id is invalid", () => {
+            it("should return a 404 and a message for invalid user id", () => {
+                return request(server)
+                    .put("/users/1100001/vote")
+                    .expect(404);
+            });
+        });
+    });
+
+    
+    describe('DELETE /users/:id', function () {
+        describe('when id is valid', function () {
+            it('should return a confirmation message and the deleted user', function (done) {
+                chai.request(server)
+                    .delete('/users/1000001')
+                    .end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.have.property('message', 'User NOT Deleted!');
+                        done();
+                    });
+
+            });
+            after(function (done) {
+                chai.request(server)
+                    .get('/users')
+                    .end(function (err, res) {
+                        expect(res).to.have.status(200);
+                        expect(res.body).be.be.a('array');
+                        let result = _.map(res.body, function (users) {
+                            return {
+                                username: users.username,
+                                gender: users.gender
+                            };
+                        });
+                        expect(result).to.not.include({
+                            username: 'RebeccaF96',
+                            gender: "F"
+                        });
+                        done();
+                    });
+            });
+
+        });
+
+        describe('when id is invalid', function () {
+            it('should return an error message', function(done) {
+                chai.request(server)
+                    .delete('/users/1000002')
+                    .end( (err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.have.property('message','User NOT Deleted!' ) ;
+                        done();
+                    });
+            });
+        });
+
+
+
+
     });
 });
 

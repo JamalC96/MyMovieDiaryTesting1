@@ -80,7 +80,7 @@ router.deleteUser = (req, res) => {
 
   User.findByIdAndRemove(req.params.id, function(err) {
     if (err)
-      res.json({ message: 'User was NOT DELETED!', errmsg : err } );
+      res.json({ message: 'User NOT Deleted!', errmsg : err } );
     else
       res.json({ message: 'User was Successfully Deleted!'});
   });
