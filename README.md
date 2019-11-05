@@ -81,6 +81,9 @@ My Users model stores the users email , password and mebership points. My Diarie
     
     
 
+
+
+
          
      <h2>Testing</h2>  
     Diariess
