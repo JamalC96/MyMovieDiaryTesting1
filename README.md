@@ -84,16 +84,10 @@ My Users model stores the users email , password and mebership points. My Diarie
 <h1> Testing </h1>
 
 
-> mymoviediary@0.0.0 test C:\Users\User\WebstormProjects\MyMovieDiaryTesting1
-> cross-env NODE_ENV=test mocha --exit
+
+```
 
 
-
-  Diariess
-    GET /diaries
-(node:6380) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
-(node:6380) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
-Successfully Connected to [ admin ]
       √ should GET all the diarys entry (119ms)
       GET /diaries/:id
         when the id is valid
@@ -195,19 +189,7 @@ PUT /users/5dc20964b076fc18ec60b6f8/votes 404 3.243 ms - 9601
          when username is valid
            should return a confirmation message and the deleted username:
 
-      Uncaught AssertionError: expected { Object (_events, _eventsCount, ...) } to have status code 500 but got 200
-      + expected - actual
-
-      -200
-      +500
-
-      at C:\Users\User\WebstormProjects\MyMovieDiaryTesting1\test\functional\api/diariesTest.js:594:45
-      at Test.Request.callback (node_modules\superagent\lib\node\index.js:716:12)
-      at parser (node_modules\superagent\lib\node\index.js:916:18)
-      at IncomingMessage.res.on (node_modules\superagent\lib\node\parsers\json.js:19:7)
-      at endReadableNT (_stream_readable.js:1145:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
-
+    ```
 
          
 
@@ -219,4 +201,13 @@ PUT /users/5dc20964b076fc18ec60b6f8/votes 404 3.243 ms - 9601
 <br>
 
 
-I have implementeedFuzzy serach  as part of additional fuctionality this was in order to help out users to serach user without typing out their full name. Testing for fuzzy serach was also implemented on my testing phase.
+I have implementeedFuzzy serach  as part of additional fuctionality this was in order to help out users to serach user without typing 
+out their full name. Testing for fuzzy serach was also implemented on my testing phase.
+
+
+
+
+
+
+
+
