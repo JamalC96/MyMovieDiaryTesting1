@@ -12,6 +12,11 @@ Agile Software Practice
 
 My Users model stores the users email , password and mebership points. My Diaries model stores type , genre , favorite, stars and comments. I have implemented fuzzy search that allows the users to look up their favorite movioe or series. diarys are upvoted.
 
+<h1> Additional Functionality </h2>
+<p>I have implementeedFuzzy serach  as part of additional fuctionality this was in order to help out users to serach user without typing 
+out their full name. Testing for fuzzy serach was also implemented on my testing phase.</p>
+
+
 <h1> Routes </h1>
 
 <h2><u>Diary Routes </u></h2>
@@ -55,7 +60,7 @@ My Users model stores the users email , password and mebership points. My Diarie
 
 
 
-<h2> Users Mode </h2>
+<h2> Users Model </h2>
 
      {
           "membershipPointsPoints": 2000,
@@ -71,7 +76,7 @@ My Users model stores the users email , password and mebership points. My Diarie
             "genre" :"Action";
             "favorite " :"Bad Boys 3";
             stars = "6.0";
-            comments = "One of Will Smith best movie";
+            comments = "One of Will Smith's movies in his career!";
             upvotes = 2;
      }
      
@@ -84,10 +89,7 @@ My Users model stores the users email , password and mebership points. My Diarie
 <h1> Testing </h1>
 
 
-
 ```
-
-
       √ should GET all the diarys entry (119ms)
       GET /diaries/:id
         when the id is valid
@@ -193,11 +195,6 @@ PUT /users/5dc20964b076fc18ec60b6f8/votes 404 3.243 ms - 9601
 
 
 
-
-
-
-<p>I have implementeedFuzzy serach  as part of additional fuctionality this was in order to help out users to serach user without typing 
-out their full name. Testing for fuzzy serach was also implemented on my testing phase.</p>
 
 
          
