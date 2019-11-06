@@ -189,22 +189,18 @@ PUT /users/5dc20964b076fc18ec60b6f8/votes 404 3.243 ms - 9601
          when username is valid
            should return a confirmation message and the deleted username:
 
-    ```
+'''
+
+
+
+
+
+
+<p>I have implementeedFuzzy serach  as part of additional fuctionality this was in order to help out users to serach user without typing 
+out their full name. Testing for fuzzy serach was also implemented on my testing phase.</p>
+
 
          
-
-    
-
-    
-
-
-<br>
-
-
-I have implementeedFuzzy serach  as part of additional fuctionality this was in order to help out users to serach user without typing 
-out their full name. Testing for fuzzy serach was also implemented on my testing phase.
-
-
 
 
 
